@@ -16,15 +16,15 @@ pipeline {
       
          stage('Postman testing') {
             steps {   
-               sh 'newman run PetMain.postman_collection.json --environment PetE.postman_environment.json'
+               sh 'newman run PetMain.postman_collection.json --environment PetE.postman_environment.json --reporters junit'
             }
             post {
                 always {
-                    junit '*/Results.xml'
+                    junit '**/*xml'
                 }
             }
         }
-        
+
         stage('Robot Framework System tests with Selenium') {
             steps {
                 sh 'robot --variable BROWSER:headlesschrome -d Robot_tests/Results Robot_tests/Tests'
